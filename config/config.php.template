@@ -1,0 +1,8 @@
+<?php
+/** Configuration Variables **/
+define ('DEV_MODE',true);
+ 
+define('DB_NAME', '');
+define('DB_USER', '');
+define('DB_PASSWORD', '');
+define('DB_HOST', '');
