@@ -33,16 +33,16 @@ class View {
         }
         extract($this->variables);
         if($this->_layout != "" && $this->_layout != false && $this->_layout != null){
-            if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . 'layout' . DS . $this->_layout . '.php')){
-                include (ROOT . DS . 'app' . DS . 'views' . DS . 'layout' . DS . $this->_layout . '.php');
+            if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . 'layout' . DS . $this->_layout . '.phtml')){
+                include (ROOT . DS . 'app' . DS . 'views' . DS . 'layout' . DS . $this->_layout . '.phtml');
             } else {
                 die("Layout $this->_layout not found.");
             }
         }
     }
     function content(){ 
-        if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $this->_model . DS . $this->_action . '.php'))
-            include (ROOT . DS . 'app' . DS . 'views' . DS . $this->_model . DS . $this->_action . '.php');
+        if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.phtml'))
+            include (ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.phtml');
     }
  
 }

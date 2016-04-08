@@ -68,7 +68,6 @@ function callHook() {
 }
 
 /** Autoload any classes that are required **/
-
 function __autoload($className) {
     if(!in_array($className,array('Controller','Model','View','Layout','SQLQuery'))){
         if (strpos($className, 'Controller') !== false) {
@@ -80,6 +79,12 @@ function __autoload($className) {
                 require_once(ROOT . DS . 'core' . DS . 'views' . DS . 'helpers' . DS . $className . '.php');
             } else if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . 'helpers' . DS . $className . '.php')) {
                 require_once(ROOT . DS . 'app' . DS . 'views' . DS . 'helpers' . DS . $className . '.php');
+            }     
+        } else if(strpos($className, 'Component') !== false){
+            if (file_exists(ROOT . DS . 'core' . DS . 'components' . DS . $className . '.php')) {
+                require_once(ROOT . DS . 'core' . DS . 'components' .  DS . $className . '.php');
+            } else if(file_exists(ROOT . DS . 'app' . DS . 'components' . DS . $className . '.php')) {
+                require_once(ROOT . DS . 'app' . DS . 'components' . DS . $className . '.php');
             }     
         } else {
             if (file_exists(ROOT . DS . 'app' . DS . 'models' . DS . $className . '.php')) {

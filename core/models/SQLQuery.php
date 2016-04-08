@@ -55,7 +55,7 @@ class SQLQuery {
     }
     
     protected function doSave($data){
-        $query = "INSERT INTO " .$this->_table . " (";
+        $query = "INSERT INTO $this->_table (";
         $first = true;
         foreach(array_keys($data) as $key){
             if(!$first)
@@ -78,5 +78,31 @@ class SQLQuery {
         $query .= ");";
         $res = $this->_db->query($query);
         return $res;
+    }
+
+    protected function doDelete($id){
+        $id = intval($id);
+        $query = "DELETE FROM $this->_table WHERE id=$id";
+        $res = $this->_db->query($query);
+        return $res;
+    }
+
+    public function update($data){
+        $id = intval($data['id']);
+        unset($data['id']);
+        if($id != null){
+            $first = true;
+            $query = "UPDATE $this->_table SET";
+            foreach($data as $k => $v){
+                if($first){
+                    $query .= " $k='$v'";
+                    $first = false;
+                } else {
+                    $query .= ", $k='$v'";                    
+                }
+            }
+            $query .= " WHERE id=$id";
+            $res = $this->_db->query($query);
+        }
     }
 }
