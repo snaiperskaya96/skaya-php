@@ -1,3 +1,5 @@
 *
 !.gitignore
-!layout/default.php
+!layout
+!pages
+!elements

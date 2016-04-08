@@ -1,12 +1,12 @@
 <?php
 class View {
      
-    protected $variables = array();
+    protected $variables = [];
     protected $_pageTitle = "";
     protected $_model;
     protected $_controller;
     protected $_action;
-    protected $_layout = "default";
+    protected $_layout = DEFAULT_LAYOUT;
     private $_helpers = [];
 
     function __construct($model,$controller,$action,$layout = "default",$title = "") {
@@ -36,13 +36,26 @@ class View {
             if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . 'layout' . DS . $this->_layout . '.phtml')){
                 include (ROOT . DS . 'app' . DS . 'views' . DS . 'layout' . DS . $this->_layout . '.phtml');
             } else {
-                die("Layout $this->_layout not found.");
+                $_SESSION['errors'][] = "Layout $this->_layout not found.";
             }
         }
     }
-    function content(){ 
-        if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.phtml'))
+    
+    function content(){
+        extract($this->variables);
+        if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.phtml')){
             include (ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.phtml');
+        } else {
+            $_SESSION['errors'][] = "Cannot find a view for $this->_action";
+        }
+    }
+    
+    function pushElement($elementName){
+        if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . 'elements' . DS . $elementName)){
+            include (ROOT . DS . 'app' . DS . 'views' . DS . 'elements' . DS . $elementName . '.phtml');
+        } else {
+            $_SESSION['errors'][] = "Cannot find element $elementName";
+        }
     }
  
 }

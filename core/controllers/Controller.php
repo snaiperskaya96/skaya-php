@@ -20,8 +20,9 @@ class Controller {
             $componentClass = $comp."Component";
             $this->$comp = new $componentClass();
         }
-
-        $this->$model = new $model;
+        
+        if($model != "" && class_exists($model))
+            $this->$model =  new $model;
         $this->_template = new View($model,$controller,$action,$this->layout,$this->title);
 
     }

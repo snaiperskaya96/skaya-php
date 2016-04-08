@@ -1,2 +1,6 @@
 *
 !.gitignore
+!font-awesome.min.css
+!pure-min.css
+!marketing.css
+!skayaphp.css

@@ -1,9 +1,11 @@
 <?php
 /** Check if environment is development and display errors **/
+
 function setReporting() {
     if (DEV_MODE == true) {
     error_reporting(E_ALL);
     ini_set('display_errors','On');
+    session_start();
     } else {
     error_reporting(E_ALL);
     ini_set('display_errors','Off');
@@ -16,6 +18,7 @@ function stripSlashesDeep($value){
     $value = is_array($value) ? array_map('stripSlashesDeep', $value) : stripslashes($value);
     return $value;
 }
+
 function removeMagicQuotes() {
     if ( get_magic_quotes_gpc() ) {
         $_GET    = stripSlashesDeep($_GET   );
@@ -59,12 +62,20 @@ function callHook() {
     $model = rtrim($controller, 's');
     $controller .= 'Controller';
     
+    if($controllerName == ""){
+        $controllerName = defaultRoute['controller'];
+        $controller = ucwords($controllerName);
+        $model = rtrim($controller, 's');
+        $controller .= 'Controller';
+        $action = defaultRoute['action'];
+    }
+    
     $dispatch = new $controller($model,$controllerName,$action);
     if ((int)method_exists($controller, $action)) {
         call_user_func_array(array($dispatch,$action),$queryString);
-        } else {
-        /* Error Generation Code Here */
-        }
+    } else {
+        $_SESSION['errors'][] = "Cannot find action $action inside $controller";
+    }
 }
 
 /** Autoload any classes that are required **/
@@ -89,7 +100,7 @@ function __autoload($className) {
         } else {
             if (file_exists(ROOT . DS . 'app' . DS . 'models' . DS . $className . '.php')) {
                 require_once(ROOT . DS . 'app' . DS . 'models' . DS . $className . '.php');
-            }             
+            }
         }
     } else {
         if($className == 'SQLQuery')
@@ -97,6 +108,9 @@ function __autoload($className) {
         else
             if(file_exists(ROOT . DS . 'core' . DS . strtolower($className).'s' . DS .$className .'.php'))
                 require_once(ROOT . DS . 'core' . DS . strtolower($className).'s' . DS .$className .'.php');
+            else{
+                $_SESSION['errors'][] = "Cannot find $className class";
+            }
     }
 }
 
@@ -104,3 +118,12 @@ setReporting();
 removeMagicQuotes();
 unregisterGlobals();
 callHook();
+
+if(DEV_MODE == true){
+    if(!empty($_SESSION['errors'])){
+        foreach($_SESSION['errors'] as $error){
+            echo $error . "<br>\n";
+        }
+        unset($_SESSION['errors']);
+    }
+}
