@@ -75,6 +75,12 @@ function __autoload($className) {
             if (file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS . $className . '.php')) {
                 require_once(ROOT . DS . 'app' . DS . 'controllers' . DS . $className . '.php');
             } 
+        } else if(strpos($className, 'Helper') !== false){
+            if (file_exists(ROOT . DS . 'core' . DS . 'views' . DS . 'helpers' . DS . $className . '.php')) {
+                require_once(ROOT . DS . 'core' . DS . 'views' . DS . 'helpers' . DS . $className . '.php');
+            } else if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . 'helpers' . DS . $className . '.php')) {
+                require_once(ROOT . DS . 'app' . DS . 'views' . DS . 'helpers' . DS . $className . '.php');
+            }     
         } else {
             if (file_exists(ROOT . DS . 'app' . DS . 'models' . DS . $className . '.php')) {
                 require_once(ROOT . DS . 'app' . DS . 'models' . DS . $className . '.php');

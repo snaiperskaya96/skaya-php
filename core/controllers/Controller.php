@@ -5,7 +5,10 @@ class Controller {
     protected $_controller;
     protected $_action;
     protected $_template;
+    protected $title = DEFAULT_TITLE;
+    protected $layout = DEFAULT_LAYOUT;
     protected $autoRender = true;
+    protected $helpers = ['Html','Css','Js'];
  
     function __construct($model, $controller, $action) {
         $this->_controller = $controller;
@@ -13,7 +16,7 @@ class Controller {
         $this->_model = $model;
  
         $this->$model = new $model;
-        $this->_template = new View($model,$controller,$action);
+        $this->_template = new View($model,$controller,$action,$this->layout,$this->title);
     }
  
     function set($name,$value) {
@@ -21,8 +24,12 @@ class Controller {
     }
  
     function __destruct() {
-        if($this->autoRender)
+        if($this->autoRender){
+            if(!empty($this->helpers)){
+                $this->_template->setHelpers($this->helpers);
+            }
             $this->_template->render();
+        }
     }
          
 }

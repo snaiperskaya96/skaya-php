@@ -2,26 +2,35 @@
 class View {
      
     protected $variables = array();
+    protected $_pageTitle = "";
     protected $_model;
     protected $_controller;
     protected $_action;
     protected $_layout = "default";
-     
-    function __construct($model,$controller,$action) {
+    private $_helpers = [];
+
+    function __construct($model,$controller,$action,$layout = "default",$title = "") {
         $this->_model = $model;
         $this->_controller = $controller;
         $this->_action = $action;
+        $this->_pageTitle = $title;
+        $this->_layout = $layout;
     }
  
-    /** Set Variables **/
  
     function set($name,$value) {
         $this->variables[$name] = $value;
     }
  
-    /** Display Template **/
-     
+    function setHelpers($helpers = []){
+        $this->_helpers = $helpers;
+    }
+
     function render() {
+        foreach($this->_helpers as $h){
+            $helperName = $h."Helper";
+            $this->$h = new $helperName();
+        }
         extract($this->variables);
         if($this->_layout != "" && $this->_layout != false && $this->_layout != null){
             if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . 'layout' . DS . $this->_layout . '.php')){
