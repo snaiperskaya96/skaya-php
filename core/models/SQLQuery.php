@@ -6,7 +6,8 @@ class SQLQuery {
 
     public function __construct() {
         try{
-            $this->_db = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PASSWORD);
+            if(DB_HOST != "" && DB_NAME != "" && DB_USER != "" && DB_PASSWORD != "")
+                $this->_db = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PASSWORD);
         } catch (PDOException $e){
             if(DEV_MODE)
                 die($e->getMessage());

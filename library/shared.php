@@ -47,7 +47,10 @@ function callHook() {
 
     $controller = $urlArray[0];
     array_shift($urlArray);
-    $action = $urlArray[0];
+    if(isset($urlArray[0]))
+        $action = $urlArray[0];
+    else
+        $action = DEFAULT_ACTION;
     array_shift($urlArray);
     $queryString = $urlArray;
 
@@ -67,7 +70,7 @@ function callHook() {
 /** Autoload any classes that are required **/
 
 function __autoload($className) {
-    if(!in_array($className,array('Controller','Model','View','SQLQuery'))){
+    if(!in_array($className,array('Controller','Model','View','Layout','SQLQuery'))){
         if (strpos($className, 'Controller') !== false) {
             if (file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS . $className . '.php')) {
                 require_once(ROOT . DS . 'app' . DS . 'controllers' . DS . $className . '.php');

@@ -5,6 +5,7 @@ class Controller {
     protected $_controller;
     protected $_action;
     protected $_template;
+    protected $autoRender = true;
  
     function __construct($model, $controller, $action) {
         $this->_controller = $controller;
@@ -20,6 +21,7 @@ class Controller {
     }
  
     function __destruct() {
+        if($this->autoRender)
             $this->_template->render();
     }
          

@@ -5,6 +5,7 @@ class View {
     protected $_model;
     protected $_controller;
     protected $_action;
+    protected $_layout = "default";
      
     function __construct($model,$controller,$action) {
         $this->_model = $model;
@@ -22,21 +23,17 @@ class View {
      
     function render() {
         extract($this->variables);
-         /*
-            if (file_exists(ROOT . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . 'header.php')) {
-                include (ROOT . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . 'header.php');
+        if($this->_layout != "" && $this->_layout != false && $this->_layout != null){
+            if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . 'layout' . DS . $this->_layout . '.php')){
+                include (ROOT . DS . 'app' . DS . 'views' . DS . 'layout' . DS . $this->_layout . '.php');
             } else {
-                include (ROOT . DS . 'application' . DS . 'views' . DS . 'header.php');
+                die("Layout $this->_layout not found.");
             }
-            */
- 
-        include (ROOT . DS . 'app' . DS . 'views' . DS . $this->_model . DS . $this->_action . '.php');       
-             /*
-            if (file_exists(ROOT . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . 'footer.php')) {
-                include (ROOT . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . 'footer.php');
-            } else {
-                include (ROOT . DS . 'application' . DS . 'views' . DS . 'footer.php');
-            }*/
+        }
+    }
+    function content(){ 
+        if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $this->_model . DS . $this->_action . '.php'))
+            include (ROOT . DS . 'app' . DS . 'views' . DS . $this->_model . DS . $this->_action . '.php');
     }
  
 }
