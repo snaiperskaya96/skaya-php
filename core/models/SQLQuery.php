@@ -29,8 +29,13 @@ class SQLQuery {
             $query .= " LIMIT " .$limit;
         $statment = $this->_db->prepare($query);            
         $statment->execute();
-        $results = $statment->fetchAll(PDO::FETCH_CLASS, $this->_model);
-        return $results;
+        $results = $statment->fetchAll(PDO::FETCH_ASSOC);
+        if(!empty($results)){
+            $return = [];
+            foreach($results as $r){
+                $return[] = [$this->_model => $r];
+            }
+        } else return null;
     }
     
     public function getFirst($conditions = ""){
@@ -42,7 +47,7 @@ class SQLQuery {
         $statment->execute();
         $result = $statment->fetchAll(PDO::FETCH_ASSOC);
         if(!empty($result))
-            return $result[0];
+            return [$this->model => $result[0]];
         else return null;
     }
     
@@ -52,8 +57,10 @@ class SQLQuery {
         $query = "SELECT * FROM " . $this->_table ." WHERE id = " .intval($id);
         $statment = $this->_db->prepare($query);            
         $statment->execute();
-        $result = $statment->fetchAll(PDO::FETCH_CLASS, $this->_model);
-        return $result;        
+        $result = $statment->fetchAll(PDO::FETCH_ASSOC);
+        if(!empty($result))
+            return [$this->model => $result[0]];
+        else return null;
     }
     
     protected function doSave($data){

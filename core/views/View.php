@@ -51,7 +51,8 @@ class View {
     }
     
     function pushElement($elementName){
-        if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . 'elements' . DS . $elementName)){
+        
+        if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . 'elements' . DS . $elementName . '.phtml')){
             include (ROOT . DS . 'app' . DS . 'views' . DS . 'elements' . DS . $elementName . '.phtml');
         } else {
             $_SESSION['errors'][] = "Cannot find element $elementName";

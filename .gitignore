@@ -11,7 +11,8 @@ app/models/*
 app/views/*
 !app/views/layout
 !app/views/pages
-!app/views/elements
+app/views/elements/*
+!app/views/elements/.empty
 tmp/*
 !tmp/.empty
 
