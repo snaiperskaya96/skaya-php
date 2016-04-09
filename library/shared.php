@@ -1,11 +1,11 @@
 <?php
 /** Check if environment is development and display errors **/
 
+
 function setReporting() {
     if (DEV_MODE == true) {
     error_reporting(E_ALL);
     ini_set('display_errors','On');
-    session_start();
     } else {
     error_reporting(E_ALL);
     ini_set('display_errors','Off');

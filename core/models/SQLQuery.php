@@ -40,8 +40,10 @@ class SQLQuery {
         $query .= " LIMIT 0,1";
         $statment = $this->_db->prepare($query);            
         $statment->execute();
-        $result = $statment->fetchAll(PDO::FETCH_CLASS, $this->_model);
-        return $result;
+        $result = $statment->fetchAll(PDO::FETCH_ASSOC);
+        if(!empty($result))
+            return $result[0];
+        else return null;
     }
     
     public function getById($id = null){

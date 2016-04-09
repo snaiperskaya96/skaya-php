@@ -1,0 +1,10 @@
+<?php
+
+define('AUTH_CONFIG',[
+    'model' => 'User',    
+    'username_column' => 'username', // or maybe email
+    'password_column' => 'password', // if you're using the AuthComponent to handle sessions,
+                                     // take in mind that the BCRYPT hash will be 60 chars long
+    'salt' => 'randomCharacters123', // please specify your salt here
+    'cpu_cost' => 10, // choose a reasonable value from 4 to 31
+]);

@@ -1,5 +1,6 @@
 # User generated files #
 config/config.php
+config/auth.config.php
 app/components/*
 !app/components/.empty
 app/controllers/*
