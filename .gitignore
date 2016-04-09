@@ -1,1 +1,19 @@
-nbproject/
+# User generated files #
+config/config.php
+app/components/*
+!app/components/.empty
+app/controllers/*
+!app/controllers/AppController.php
+!app/controllers/PagesController.php
+app/models/*
+!app/models/.empty
+app/views/*
+!app/views/layout
+!app/views/pages
+!app/views/elements
+tmp/*
+!tmp/.empty
+
+# IDE specific files #
+nbproject
+.idea
