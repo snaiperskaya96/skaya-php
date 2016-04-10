@@ -10,12 +10,15 @@ class Controller {
     protected $autoRender = true;
     protected $helpers = ['Html','Css','Js'];
     protected $components = [];
+    protected $request;
  
     function __construct($model, $controller, $action) {
         $this->_controller = $controller;
         $this->_action = $action;
         $this->_model = $model;
 
+        $this->request = new Request();
+        
         foreach($this->components as $comp){
             $componentClass = $comp."Component";
             $this->$comp = new $componentClass();
@@ -24,7 +27,7 @@ class Controller {
         if($model != "" && class_exists($model))
             $this->$model =  new $model;
         $this->_template = new View($model,$controller,$action,$this->layout,$this->title);
-
+        $this->_template->setComponents($this->components);
     }
  
     function set($name,$value) {

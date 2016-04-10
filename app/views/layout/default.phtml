@@ -18,6 +18,16 @@
 
 <?=$this->content();?>
 
+<?php 
+if(DEV_MODE == true){
+    if(!empty($this->Session->read('errors'))){
+        foreach($this->Session->read('errors') as $error){
+            echo $error . "<br>\n";
+        }
+        unset($_SESSION['errors']);
+    }
+}
+?>
 
 </body>
 </html>

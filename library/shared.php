@@ -80,7 +80,7 @@ function callHook() {
 
 /** Autoload any classes that are required **/
 function __autoload($className) {
-    if(!in_array($className,array('Controller','Model','View','Layout','SQLQuery'))){
+    if(!in_array($className,array('Controller','Model','View','Request','SQLQuery'))){
         if (strpos($className, 'Controller') !== false) {
             if (file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS . $className . '.php')) {
                 require_once(ROOT . DS . 'app' . DS . 'controllers' . DS . $className . '.php');
@@ -105,6 +105,8 @@ function __autoload($className) {
     } else {
         if($className == 'SQLQuery')
             require_once(ROOT . DS . 'core' . DS . 'models' . DS . 'SQLQuery.php');
+        elseif($className == 'Request')
+            require_once(ROOT . DS . 'core' . DS . 'models' . DS . 'Request.php');
         else
             if(file_exists(ROOT . DS . 'core' . DS . strtolower($className).'s' . DS .$className .'.php'))
                 require_once(ROOT . DS . 'core' . DS . strtolower($className).'s' . DS .$className .'.php');
@@ -119,11 +121,3 @@ removeMagicQuotes();
 unregisterGlobals();
 callHook();
 
-if(DEV_MODE == true){
-    if(!empty($_SESSION['errors'])){
-        foreach($_SESSION['errors'] as $error){
-            echo $error . "<br>\n";
-        }
-        unset($_SESSION['errors']);
-    }
-}

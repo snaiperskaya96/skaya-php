@@ -25,9 +25,11 @@ class AuthComponent extends Component{
         $user = $model->getFirst($where);
         if(!empty($user)){
             $passField = AUTH_CONFIG['password_column'];
-            if(password_verify(AUTH_CONFIG['salt'].$password, $user[$passField])){
-                unset($user[$passField]);
+            if(password_verify(AUTH_CONFIG['salt'].$password, $user[$modelName][$passField])){
+                unset($user[$modelName][$passField]);
                 $_SESSION['Auth'] = $user;
+                session_id("user".$user[$modelName]['id']);
+                session_regenerate_id();
                 return true;
             } else {
                 return false;
@@ -38,9 +40,27 @@ class AuthComponent extends Component{
         return false;
     }
     
+    public function deauthenticate(){
+        unset($_SESSION['Auth']);
+        session_destroy();
+    }
+    
     public function getUser(){
         if(isset($_SESSION['Auth']))
             return $_SESSION['Auth'];
+        else return false;
+    }
+    
+    public function getValue($value){
+        if($this->isAuthenticated()){
+            $modelName = AUTH_CONFIG['model'];
+            return $_SESSION['Auth'][$modelName][$value];
+        } else return null;
+    }
+    
+    public function isAuthenticated(){
+        if(isset($_SESSION['Auth']))
+            return true;
         else return false;
     }
 }

@@ -47,7 +47,7 @@ class SQLQuery {
         $statment->execute();
         $result = $statment->fetchAll(PDO::FETCH_ASSOC);
         if(!empty($result))
-            return [$this->model => $result[0]];
+            return [$this->_model => $result[0]];
         else return null;
     }
     

@@ -25,6 +25,13 @@ class View {
     function setHelpers($helpers = []){
         $this->_helpers = $helpers;
     }
+    
+    function setComponents($components = []){
+        foreach($components as $component){
+            $compName = $component.'Component';
+            $this->$component = new $compName;
+        }
+    }
 
     function render() {
         foreach($this->_helpers as $h){

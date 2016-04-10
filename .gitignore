@@ -9,8 +9,8 @@ app/controllers/*
 app/models/*
 !app/models/.empty
 app/views/*
-!app/views/layout
-!app/views/pages
+!app/views/layout/default.phtml
+!app/views/pages/home.phtml
 app/views/elements/*
 !app/views/elements/.empty
 tmp/*

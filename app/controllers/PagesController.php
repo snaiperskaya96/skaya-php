@@ -1,7 +1,5 @@
 <?php
-class PagesController extends AppController {
-    protected $components = ['Auth'];
-    
+class PagesController extends AppController {    
     function home(){
         $db = false;
         try{
