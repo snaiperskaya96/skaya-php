@@ -165,7 +165,7 @@ class SQLQuery {
         return $res;
     }
 
-    public function update($data){
+    public function doUpdate($data){
         $id = intval($data['id']);
         unset($data['id']);
         if($id != null){
@@ -181,6 +181,7 @@ class SQLQuery {
             }
             $query .= " WHERE id=$id";
             $res = $this->_db->query($query);
+            return $res;
         }
     }
 }

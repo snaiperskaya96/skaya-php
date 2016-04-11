@@ -29,7 +29,12 @@ class Controller {
         $this->_template = new View($model,$controller,$action,$this->layout,$this->title);
         $this->_template->setComponents($this->components);
     }
- 
+
+    /**
+     * Makes $value available in the view by calling $name
+     * @param string $name
+     * @param mixed $value
+     */
     function set($name,$value) {
         $this->_template->set($name,$value);
     }
@@ -43,8 +48,12 @@ class Controller {
         }
     }
 
+    /**
+     * Include the model $modelName (callable via $this->$modelName)
+     * @param string $modelName
+     */
     function loadModel($modelName) {
         $this->$modelName = new $modelName();
     }
-         
+
 }

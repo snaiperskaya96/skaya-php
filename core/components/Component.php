@@ -4,6 +4,9 @@ class Component{
 		$this->init();
 	}
 
+	/**
+	 * This is the first action the component does when initialized
+     */
 	public function init(){
 
 	}

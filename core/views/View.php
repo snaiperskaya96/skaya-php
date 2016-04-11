@@ -18,16 +18,28 @@ class View {
         $this->_layout = $layout;
         $this->basePath = BASEPATH;
     }
- 
- 
+
+    /**
+     * Makes $value available in the view by calling $name
+     * @param string $name
+     * @param mixed $value
+     */
     function set($name,$value) {
         $this->variables[$name] = $value;
     }
- 
+
+    /**
+     * Makes $helpers available inside the view
+     * @param array $helpers
+     */
     function setHelpers($helpers = []){
         $this->_helpers = $helpers;
     }
-    
+
+    /**
+     * Makes $components available inside the view
+     * @param array $components
+     */
     function setComponents($components = []){
         foreach($components as $component){
             $compName = $component.'Component';
@@ -35,6 +47,9 @@ class View {
         }
     }
 
+    /**
+     * Render the layout which will render the view
+     */
     function render() {
         foreach($this->_helpers as $h){
             $helperName = $h."Helper";
@@ -49,7 +64,10 @@ class View {
             }
         }
     }
-    
+
+    /**
+     * Render the view - Called from the layout - Usually
+     */
     function content(){
         extract($this->variables);
         if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.phtml')){
@@ -58,7 +76,11 @@ class View {
             $_SESSION['errors'][] = "Cannot find a view for $this->_action";
         }
     }
-    
+
+    /**
+     * Render an element inside a view
+     * @param string $elementName
+     */
     function pushElement($elementName){
         
         if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . 'elements' . DS . $elementName . '.phtml')){
