@@ -5,7 +5,10 @@ SkayaPHP: A lightweight MVC Framework
 
 .. image:: http://me.skayahack.it/img/SkayaPHPlogo.png
     :alt: SkayaPHP Logo
+    :width: 256
+    :height: 256
     :align: center
+    
 
 
 SkayaPHP is a super light and clean **MVC Framework**.
