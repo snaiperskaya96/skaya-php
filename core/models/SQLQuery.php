@@ -3,6 +3,8 @@ class SQLQuery {
     private $_db;
     protected $_model;
     protected $_table;
+    protected $belongsTo = [];
+    
 
     public function __construct() {
         try{
@@ -18,7 +20,7 @@ class SQLQuery {
     }
     
     public function getLastInsertId(){
-        return $_db->lastInsertId();
+        return $this->_db->lastInsertId();
     }
     
     public function getAll($conditions = "",$limit = ""){
@@ -33,8 +35,28 @@ class SQLQuery {
         if(!empty($results)){
             $return = [];
             foreach($results as $r){
-                $return[] = [$this->_model => $r];
+                $returnArr = [$this->_model => $r];
+                if(!empty($this->belongsTo)){
+                    foreach($this->belongsTo as $bt){
+                        if(!is_array($bt)){
+                            $mod = new $bt;
+                            $res = $mod->getFirst("id = '".$r[strtolower($bt).'_id'] ."'");
+                            if(!empty($res)){
+                                $returnArr[$bt] = $res[$bt];
+                            }
+                        } else {
+                            $modName = array_keys($bt)[0];
+                            $mod = new $modName;
+                            $res = $mod->getFirst("id = '".$r[$bt['foreignKey']] ."'");
+                            if(!empty($res)){
+                                $returnArr[$bt] = $res[$bt];
+                            }
+                        }
+                    }
+                }
+                $return[] = $returnArr;
             }
+            return $return;
         } else return null;
     }
     
@@ -46,8 +68,31 @@ class SQLQuery {
         $statment = $this->_db->prepare($query);            
         $statment->execute();
         $result = $statment->fetchAll(PDO::FETCH_ASSOC);
-        if(!empty($result))
-            return [$this->_model => $result[0]];
+        if(!empty($result)){
+            $return = [$this->_model => $result[0]];
+            $res = $result[0];
+            $returnArr = [$this->_model => $res];
+            if(!empty($this->belongsTo)){
+                foreach($this->belongsTo as $bt){
+                    if(!is_array($bt)){
+                        $mod = new $bt;
+                        $res = $mod->getFirst("id = '".$result[0][strtolower($bt).'_id'] ."'");
+                        if(!empty($res)){
+                            $returnArr[$bt] = $res[$bt];
+                        }
+                    } else {
+                        $modName = array_keys($bt)[0];
+                        $mod = new $modName;
+                        $res = $mod->getFirst("id = '".$result[0][$bt['foreignKey']] ."'");
+                        if(!empty($res)){
+                            $returnArr[$bt] = $res[$bt];
+                        }
+                    }
+                }
+                $return = $returnArr;
+            }
+            return $return;
+        }
         else return null;
     }
     
@@ -58,8 +103,32 @@ class SQLQuery {
         $statment = $this->_db->prepare($query);            
         $statment->execute();
         $result = $statment->fetchAll(PDO::FETCH_ASSOC);
-        if(!empty($result))
-            return [$this->model => $result[0]];
+        if(!empty($result)){
+            $res = $result[0];
+            $return = [];
+            $returnArr [$this->_model] = $res;
+            if(!empty($this->belongsTo)){
+                foreach($this->belongsTo as $bt){
+                    if(!is_array($bt)){
+                        $mod = new $bt;
+                        $res = $mod->getFirst("id = '".$result[0][strtolower($bt).'_id'] ."'");
+                        if(!empty($res)){
+                            $returnArr[$bt] = $res[$bt];
+                        }
+                    } else {
+                        $modName = array_keys($bt)[0];
+                        $mod = new $modName;
+                        $res = $mod->getFirst("id = '".$result[0][$bt['foreignKey']] ."'");
+                        if(!empty($res)){
+                            $returnArr[$bt] = $res[$bt];
+                        }
+                    }
+                }
+                $return = $returnArr;
+            }
+            return $return;
+            
+        }
         else return null;
     }
     

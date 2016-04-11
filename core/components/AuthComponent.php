@@ -63,4 +63,20 @@ class AuthComponent extends Component{
             return true;
         else return false;
     }
+    
+    public function forceLogin($uniqueFieldValue, $uniqueFieldName = null){
+        $field = $uniqueFieldName == null ? "id" : $uniqueFieldName;
+        $modelName = AUTH_CONFIG['model'];
+        $model = new $modelName;
+        $res = $model->getFirst("$field='$uniqueFieldValue'");
+        if(!empty($res)){
+            $passField = AUTH_CONFIG['password_column'];
+            unset($res[$modelName][$passField]);
+            $_SESSION['Auth'] = $res;
+            session_id("user".$res[$modelName]['id']);
+            session_regenerate_id();
+            return true;
+        }
+        return false;
+    }
 }
