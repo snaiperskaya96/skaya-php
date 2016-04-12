@@ -14,7 +14,7 @@ define('DB_USER', '');
 define('DB_PASSWORD', '');
 define('DB_HOST', '');
 
-define('defaultRoute',[
+const defaultRoute = [
     'controller' => 'pages',
     'action' => 'home'
-]);
+];

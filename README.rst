@@ -32,7 +32,7 @@ Main Features
 Requisites
 ==========
 
- * PHP 5.5 or major
+ * PHP 5.6 or major
  * mod_rewrite (Remember to set AllowOverride All)
 
 
