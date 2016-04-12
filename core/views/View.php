@@ -8,7 +8,6 @@ class View {
     protected $_action;
     protected $_layout = DEFAULT_LAYOUT;
     private $_helpers = [];
-    protected $basePath;
 
     function __construct($model,$controller,$action,$layout = "default",$title = "") {
         $this->_model = $model;
@@ -16,7 +15,6 @@ class View {
         $this->_action = $action;
         $this->_pageTitle = $title;
         $this->_layout = $layout;
-        $this->basePath = BASEPATH;
     }
 
     /**
@@ -88,6 +86,10 @@ class View {
         } else {
             $_SESSION['errors'][] = "Cannot find element $elementName";
         }
+    }
+
+    function basePath(){
+        return BASEPATH;
     }
  
 }

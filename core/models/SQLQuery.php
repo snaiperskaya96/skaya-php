@@ -29,9 +29,9 @@ class SQLQuery {
             $query .= " WHERE " .$conditions;
         if($limit != "")
             $query .= " LIMIT " .$limit;
-        $statment = $this->_db->prepare($query);            
-        $statment->execute();
-        $results = $statment->fetchAll(PDO::FETCH_ASSOC);
+        $statement = $this->_db->prepare($query);
+        $statement->execute();
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
         if(!empty($results)){
             $return = [];
             foreach($results as $r){
@@ -65,9 +65,9 @@ class SQLQuery {
         if($conditions != "")
             $query .= " WHERE " .$conditions;
         $query .= " LIMIT 0,1";
-        $statment = $this->_db->prepare($query);            
-        $statment->execute();
-        $result = $statment->fetchAll(PDO::FETCH_ASSOC);
+        $statement = $this->_db->prepare($query);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         if(!empty($result)){
             $return = [$this->_model => $result[0]];
             $res = $result[0];
@@ -100,9 +100,9 @@ class SQLQuery {
         if($id == null)
             return [];
         $query = "SELECT * FROM " . $this->_table ." WHERE id = " .intval($id);
-        $statment = $this->_db->prepare($query);            
-        $statment->execute();
-        $result = $statment->fetchAll(PDO::FETCH_ASSOC);
+        $statement = $this->_db->prepare($query);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         if(!empty($result)){
             $res = $result[0];
             $return = [];

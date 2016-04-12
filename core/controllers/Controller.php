@@ -56,4 +56,17 @@ class Controller {
         $this->$modelName = new $modelName();
     }
 
+    /**
+     * Redirect to the given controller->action
+     * @param $controller
+     * @param string $action default is index
+     * @param array $arguments
+     */
+    function redirect($controller, $action = "index", $arguments = []){
+        $url = BASEPATH."$controller/$action/";
+        foreach($arguments as $arg)
+            $url .= "$arg/";
+        header("Location: $url");
+    }
+
 }
