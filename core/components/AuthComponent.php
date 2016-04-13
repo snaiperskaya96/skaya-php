@@ -33,24 +33,14 @@ class AuthComponent extends Component{
 
         if($generalRule == ACP_DENY_EVERYONE)
             $return = false;
-
-        if(empty($allowedRoles) && empty($deniedRoles)){
-            if($generalRule == ACP_ALLOW_EVERYONE)
-                $return = true;
-            else if($generalRule != ACP_DENY_EVERYONE){
-                if($generalRule == $me){
-                    $return = true;
-                } else $return = false;
-            }
-        }
-
-        if((in_array($me,$allowedRoles) && !in_array($me,$deniedRoles)) ||
-            (empty($allowedRoles) && !in_array($me,$deniedRoles) && !in_array(ACP_DENY_EVERYONE,$deniedRoles) && $generalRule != ACP_DENY_EVERYONE) ||
-            (!in_array($me,$deniedRoles) && (in_array(ACP_ALLOW_EVERYONE,$allowedRoles) || $generalRule == ACP_ALLOW_EVERYONE)))
+        if(in_array($me,$deniedRoles) || in_array(ACP_DENY_EVERYONE,$deniedRoles))
+            $return = false;
+        if(in_array($me,$allowedRoles) || in_array(ACP_ALLOW_EVERYONE,$allowedRoles))
             $return = true;
-        else $return = false;
-
+        if(in_array($me,$deniedRoles) && in_array(ACP_ALLOW_EVERYONE,$allowedRoles))
+            $return = false;
         return $return;
+
     }
     
     /**
