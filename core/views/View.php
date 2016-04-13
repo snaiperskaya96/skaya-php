@@ -41,7 +41,7 @@ class View {
     function setComponents($components = []){
         foreach($components as $component){
             $compName = $component.'Component';
-            $this->$component = new $compName;
+            $this->$component = new $compName($this);
         }
     }
 

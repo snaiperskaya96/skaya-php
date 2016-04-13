@@ -3,14 +3,56 @@ class AuthComponent extends Component{
     
     public function init(){
         require_once(ROOTPATH . DS . 'core' . DS . 'vendor' . DS . 'password_lib.php');
-        require_once (ROOTPATH . DS . 'config' . DS . 'auth.config.php');
 
         // Make it indipendent from SessionComponent
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
+        
+        if(AUTH_CONFIG['acp_column'] != null && is_a($this->parent,"Controller")){
+            if(!$this->checkAcp()){
+                die("Unauthorized access");
+            }
+        }
     }
 
+    public function checkAcp(){
+        $me = ACP_GUEST;
+        $generalRule = $this->parent->getAcp()[0];
+
+        if($this->isAuthenticated())
+            $me = $this->getValue(AUTH_CONFIG['acp_column']);
+
+        $allowedRoles = isset($this->parent->getAcp()['Allow'][$this->parent->getAction()]) ? $this->parent->getAcp()['Allow'][$this->parent->getAction()] : [];
+        $deniedRoles = isset($this->parent->getAcp()['Deny'][$this->parent->getAction()]) ? $this->parent->getAcp()['Deny'][$this->parent->getAction()] : [] ;
+
+        if(!is_array($allowedRoles)) $allowedRoles = [$allowedRoles];
+        if(!is_array($deniedRoles)) $deniedRoles = [$deniedRoles];
+
+        $return = true;
+
+        if($generalRule == ACP_DENY_EVERYONE)
+            $return = false;
+
+        if(empty($allowedRoles) && empty($deniedRoles)){
+            if($generalRule == ACP_ALLOW_EVERYONE)
+                $return = true;
+            else if($generalRule != ACP_DENY_EVERYONE){
+                if($generalRule == $me){
+                    $return = true;
+                } else $return = false;
+            }
+        }
+
+        if((in_array($me,$allowedRoles) && !in_array($me,$deniedRoles)) ||
+            (empty($allowedRoles) && !in_array($me,$deniedRoles) && $generalRule != ACP_DENY_EVERYONE) ||
+            (!in_array($me,$deniedRoles) && (in_array(ACP_ALLOW_EVERYONE,$allowedRoles) || $generalRule == ACP_ALLOW_EVERYONE)))
+            $return = true;
+        else $return = false;
+
+        return $return;
+    }
+    
     /**
      * Hash a password using the salt provided into the config file
      * @param $password

@@ -1,6 +1,9 @@
 <?php
 class Component{
-	function __construct(){
+	protected $parent;
+
+	function __construct($parent){
+		$this->parent = $parent;
 		$this->init();
 	}
 

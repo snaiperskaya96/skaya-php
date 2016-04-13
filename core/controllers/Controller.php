@@ -11,6 +11,11 @@ class Controller {
     protected $helpers = ['Html','Css','Js'];
     protected $components = [];
     protected $request;
+    protected $acp = [ACP_ALLOW_EVERYONE, // Applied to every action
+        'Allow' => [], // ['actionName' => 1] (to role_id 1) or ['actionName' => [1,2,3]]
+        'Deny' => []
+    ];
+
  
     function __construct($model, $controller, $action) {
         $this->_controller = $controller;
@@ -21,7 +26,7 @@ class Controller {
         
         foreach($this->components as $comp){
             $componentClass = $comp."Component";
-            $this->$comp = new $componentClass();
+            $this->$comp = new $componentClass($this);
         }
         
         if($model != "" && class_exists($model))
@@ -41,10 +46,11 @@ class Controller {
  
     function __destruct() {
         if($this->autoRender){
-            if(!empty($this->helpers)){
+            if(!empty($this->helpers) && $this->_template != null){
                 $this->_template->setHelpers($this->helpers);
             }
-            $this->_template->render();
+            if($this->_template != null)
+                $this->_template->render();
         }
     }
 
@@ -69,4 +75,19 @@ class Controller {
         header("Location: $url");
     }
 
+    /**
+     * @return array
+     */
+    public function getAcp()
+    {
+        return $this->acp;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAction()
+    {
+        return $this->_action;
+    }
 }

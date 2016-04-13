@@ -1,5 +1,11 @@
 <?php
-class PagesController extends AppController {    
+class PagesController extends AppController {
+    protected $acp = [
+        ACP_ALLOW_EVERYONE,
+        'Allow' => ['home' => []],
+        'Deny' => ['home' => []]
+    ];
+
     function home(){
         $db = false;
         try{

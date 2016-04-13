@@ -1,16 +1,15 @@
 <?php
 /** Check if environment is development and display errors **/
 
-
 function setReporting() {
     if (DEV_MODE == true) {
-    error_reporting(E_ALL);
-    ini_set('display_errors','On');
+        error_reporting(E_ALL);
+        ini_set('display_errors','On');
     } else {
-    error_reporting(E_ALL);
-    ini_set('display_errors','Off');
-    ini_set('log_errors', 'On');
-    ini_set('error_log', ROOT.DS.'tmp'.DS.'logs'.DS.'error.log');
+        error_reporting(E_ALL);
+        ini_set('display_errors','Off');
+        ini_set('log_errors', 'On');
+        ini_set('error_log', ROOT.DS.'tmp'.DS.'logs'.DS.'error.log');
     }
 }
 /** Check for Magic Quotes and remove them **/
@@ -20,11 +19,9 @@ function stripSlashesDeep($value){
 }
 
 function removeMagicQuotes() {
-    if ( get_magic_quotes_gpc() ) {
-        $_GET    = stripSlashesDeep($_GET   );
-        $_POST   = stripSlashesDeep($_POST  );
-        $_COOKIE = stripSlashesDeep($_COOKIE);
-    }
+    $_GET = stripSlashesDeep($_GET);
+    $_POST = stripSlashesDeep($_POST);
+    $_COOKIE = stripSlashesDeep($_COOKIE);
 }
 
 /** Check register globals and remove them **/
@@ -45,7 +42,6 @@ function unregisterGlobals() {
 function callHook() {
     global $url;
 
-    $urlArray = array();
     $urlArray = explode("/",$url);
 
     $controller = $urlArray[0];
