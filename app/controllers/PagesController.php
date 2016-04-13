@@ -3,7 +3,7 @@ class PagesController extends AppController {
     protected $acp = [
         ACP_ALLOW_EVERYONE,
         'Allow' => ['home' => []],
-        'Deny' => ['home' => []]
+        'Deny' => ['home' => [],'secretPage' => ACP_DENY_EVERYONE]
     ];
 
     function home(){
@@ -17,5 +17,10 @@ class PagesController extends AppController {
         }
         $this->set('dbconnection',$db);
         $this->set('writabletmp',is_writable(ROOTPATH.'/tmp'));
+    }
+
+    function secretPage(){
+        $this->autoRender = false;
+        echo "No one knows!";
     }
 }
