@@ -2,17 +2,21 @@
 config/config.php
 config/auth.config.php
 app/components/*
-!app/components/.empty
 app/controllers/*
+app/models/*
+app/views/*
+app/views/elements/*
+
+# Do not ignore #
+!app/components/.empty
 !app/controllers/AppController.php
 !app/controllers/PagesController.php
-app/models/*
 !app/models/.empty
-app/views/*
 !app/views/layout/default.phtml
 !app/views/pages/home.phtml
-app/views/elements/*
 !app/views/elements/.empty
+
+# SkayaPHP generated files #
 tmp/*
 !tmp/.empty
 
