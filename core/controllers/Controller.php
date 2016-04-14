@@ -7,6 +7,8 @@ class Controller {
     protected $_template;
     protected $title = DEFAULT_TITLE;
     protected $layout = DEFAULT_LAYOUT;
+    protected $isPlugin = false;
+    protected $pluginName = "";
     protected $autoRender = true;
     protected $helpers = ['Html','Css','Js'];
     protected $components = [];
@@ -31,8 +33,14 @@ class Controller {
         
         if($model != "" && class_exists($model))
             $this->$model =  new $model;
+
         $this->_template = new View($model,$controller,$action,$this->layout,$this->title);
         $this->_template->setComponents($this->components);
+        $this->_template->setIsPlugin($this->isPlugin,$this->pluginName);
+    }
+
+    function setLayout($layout = false){
+        $this->_template->setLayout($layout);
     }
 
     /**

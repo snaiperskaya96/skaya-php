@@ -96,19 +96,39 @@ function __autoload($className) {
         } else {
             if (file_exists(ROOT . DS . 'app' . DS . 'models' . DS . $className . '.php')) {
                 require_once(ROOT . DS . 'app' . DS . 'models' . DS . $className . '.php');
-            }
+            } else requirePlugins($className);
         }
+        requirePlugins($className);
     } else {
         if($className == 'SQLQuery')
             require_once(ROOT . DS . 'core' . DS . 'models' . DS . 'SQLQuery.php');
         elseif($className == 'Request')
             require_once(ROOT . DS . 'core' . DS . 'models' . DS . 'Request.php');
-        else
-            if(file_exists(ROOT . DS . 'core' . DS . strtolower($className).'s' . DS .$className .'.php'))
-                require_once(ROOT . DS . 'core' . DS . strtolower($className).'s' . DS .$className .'.php');
-            else{
+        else {
+            requirePlugins($className);
+            if (file_exists(ROOT . DS . 'core' . DS . strtolower($className) . 's' . DS . $className . '.php'))
+                require_once(ROOT . DS . 'core' . DS . strtolower($className) . 's' . DS . $className . '.php');
+            else {
                 $_SESSION['errors'][] = "Cannot find $className class";
             }
+        }
+    }
+}
+
+function requirePlugins($className){
+    foreach(plugins as $plugin) {
+        if (file_exists(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'controllers' . DS . $className . '.php')) {
+            require_once(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'controllers' . DS . $className . '.php');
+        }
+        if (file_exists(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'views' . DS . 'helpers' . DS . $className . '.php')) {
+            require_once(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'views' . DS . 'helpers' . DS . $className . '.php');
+        }
+        if (file_exists(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'components' . DS . $className . '.php')) {
+            require_once(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'components' . DS . $className . '.php');
+        }
+        if (file_exists(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'models' . DS . $className . '.php')) {
+            require_once(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'models' . DS . $className . '.php');
+        }
     }
 }
 

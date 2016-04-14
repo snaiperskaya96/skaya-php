@@ -2,10 +2,12 @@
 class View {
      
     protected $variables = [];
-    protected $_pageTitle = "";
+    protected $_pageTitle = '';
     protected $_model;
     protected $_controller;
     protected $_action;
+    protected $isPlugin = false;
+    protected $pluginName = '';
     protected $_layout = DEFAULT_LAYOUT;
     private $_helpers = [];
 
@@ -17,6 +19,9 @@ class View {
         $this->_layout = $layout;
     }
 
+    function setLayout($layout = false){
+        $this->_layout = $layout;
+    }
     /**
      * Makes $value available in the view by calling $name
      * @param string $name
@@ -68,10 +73,19 @@ class View {
      */
     function content(){
         extract($this->variables);
-        if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.phtml')){
-            include (ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.phtml');
+        if(!$this->isPlugin) {
+            if (file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.phtml')) {
+                include(ROOT . DS . 'app' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.phtml');
+            } else {
+                $_SESSION['errors'][] = "Cannot find a view for $this->_action";
+            }
         } else {
-            $_SESSION['errors'][] = "Cannot find a view for $this->_action";
+            if (file_exists(ROOT . DS . 'app' . DS . 'plugins' . DS . $this->pluginName . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.phtml')) {
+                include(ROOT . DS . 'app' . DS . 'plugins' . DS . $this->pluginName . DS .'views' . DS . $this->_controller . DS . $this->_action . '.phtml');
+            } else {
+                $_SESSION['errors'][] = "Cannot find a view for $this->_action";
+            }
+
         }
     }
 
@@ -90,6 +104,11 @@ class View {
 
     function basePath(){
         return BASEPATH;
+    }
+
+    public function setIsPlugin($isPlugin,$pluginName = ""){
+        $this->isPlugin = $isPlugin;
+        $this->pluginName = $pluginName;
     }
  
 }

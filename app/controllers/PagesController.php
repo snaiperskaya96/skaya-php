@@ -5,7 +5,7 @@ class PagesController extends AppController {
         'Allow' => ['home' => []],
         'Deny' => ['home' => [],'secretPage' => ACP_DENY_EVERYONE]
     ];
-
+    
     function home(){
         $db = false;
         try{

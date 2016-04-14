@@ -18,3 +18,5 @@ const defaultRoute = [
     'controller' => 'pages',
     'action' => 'home'
 ];
+
+const plugins = [];
