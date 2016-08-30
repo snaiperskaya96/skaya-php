@@ -35,6 +35,10 @@ Requisites
  * PHP 5.6 or major
  * mod_rewrite (Remember to set AllowOverride All)
 
+=========
+Install
+========
 
+* composer create-project --prefer-dist skayahack/skaya-php project-name
 
 
