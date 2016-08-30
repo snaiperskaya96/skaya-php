@@ -11,8 +11,7 @@
         }
     ],
     "require": {
-        "php": ">=5.6",
-        "ext-mbstring": "*"
+        "php": ">=5.6"
     },
     "autoload": {
         "psr-4": {"SkayaPHP\\": "core/"},
