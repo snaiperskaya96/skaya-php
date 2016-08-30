@@ -73,70 +73,12 @@ function callHook() {
     $dispatch = new $controller($model, $controllerName, $action);
     if ((int)method_exists($controller, $action)) {
         call_user_func_array(array($dispatch,$action),$queryString);
+        call_user_func(array($dispatch,'afterFilter'));
     } else {
         $_SESSION['errors'][] = "Cannot find action $action inside $controller";
     }
 }
 
-/** Autoload any classes that are required 
-function __autoload($className) {
-    if(!in_array($className,array('Controller','Model','View','Request','SQLQuery'))){
-        if (strpos($className, 'Controller') !== false) {
-            if (file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS . $className . '.php')) {
-                require_once(ROOT . DS . 'app' . DS . 'controllers' . DS . $className . '.php');
-            } 
-        } else if(strpos($className, 'Helper') !== false){
-            if (file_exists(ROOT . DS . 'core' . DS . 'views' . DS . 'helpers' . DS . $className . '.php')) {
-                require_once(ROOT . DS . 'core' . DS . 'views' . DS . 'helpers' . DS . $className . '.php');
-            } else if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . 'helpers' . DS . $className . '.php')) {
-                require_once(ROOT . DS . 'app' . DS . 'views' . DS . 'helpers' . DS . $className . '.php');
-            }     
-        } else if(strpos($className, 'Component') !== false){
-            if (file_exists(ROOT . DS . 'core' . DS . 'components' . DS . $className . '.php')) {
-                require_once(ROOT . DS . 'core' . DS . 'components' .  DS . $className . '.php');
-            } else if(file_exists(ROOT . DS . 'app' . DS . 'components' . DS . $className . '.php')) {
-                require_once(ROOT . DS . 'app' . DS . 'components' . DS . $className . '.php');
-            }     
-        } else {
-            if (file_exists(ROOT . DS . 'app' . DS . 'models' . DS . $className . '.php')) {
-                require_once(ROOT . DS . 'app' . DS . 'models' . DS . $className . '.php');
-            } else requirePlugins($className);
-        }
-        requirePlugins($className);
-    } else {
-        if($className == 'SQLQuery')
-            require_once(ROOT . DS . 'core' . DS . 'models' . DS . 'SQLQuery.php');
-        elseif($className == 'Request')
-            require_once(ROOT . DS . 'core' . DS . 'models' . DS . 'Request.php');
-        else {
-            requirePlugins($className);
-            if (file_exists(ROOT . DS . 'core' . DS . strtolower($className) . 's' . DS . $className . '.php'))
-                require_once(ROOT . DS . 'core' . DS . strtolower($className) . 's' . DS . $className . '.php');
-            else {
-                $_SESSION['errors'][] = "Cannot find $className class";
-            }
-        }
-    }
-}
-**/
-/*
-function requirePlugins($className){
-    foreach(plugins as $plugin) {
-        if (file_exists(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'controllers' . DS . $className . '.php')) {
-            require_once(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'controllers' . DS . $className . '.php');
-        }
-        if (file_exists(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'views' . DS . 'helpers' . DS . $className . '.php')) {
-            require_once(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'views' . DS . 'helpers' . DS . $className . '.php');
-        }
-        if (file_exists(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'components' . DS . $className . '.php')) {
-            require_once(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'components' . DS . $className . '.php');
-        }
-        if (file_exists(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'models' . DS . $className . '.php')) {
-            require_once(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'models' . DS . $className . '.php');
-        }
-    }
-}
-*/
 setReporting();
 removeMagicQuotes();
 unregisterGlobals();

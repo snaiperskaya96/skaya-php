@@ -68,6 +68,18 @@ class Controller {
     }
  
     function __destruct() {
+        /*
+        if($this->autoRender){
+            if(!empty($this->helpers) && $this->_template != null){
+                $this->_template->setHelpers($this->helpers);
+            }
+            if($this->_template != null)
+                $this->_template->render();
+        }
+         */
+    }
+
+    public function afterFilter() {
         if($this->autoRender){
             if(!empty($this->helpers) && $this->_template != null){
                 $this->_template->setHelpers($this->helpers);
