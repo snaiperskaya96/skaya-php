@@ -1,8 +1,9 @@
 <?php
-/** Check if environment is development and display errors **/
+require __DIR__ . DS . '../vendor/autoload.php';
 
 function setReporting() {
-    if (DEV_MODE == true) {
+    $settings = SkayaPHP\Core\Factories\SettingsFactory::getAll();
+    if ($settings['DEV_MODE'] == true) {
         error_reporting(E_ALL);
         ini_set('display_errors','On');
     } else {
@@ -40,16 +41,18 @@ function unregisterGlobals() {
 
 /** Main Call Function **/
 function callHook() {
+    $settings = SkayaPHP\Core\Factories\SettingsFactory::getAll();
     global $url;
 
     $urlArray = explode("/",$url);
 
     $controller = $urlArray[0];
     array_shift($urlArray);
-    if(isset($urlArray[0]))
+    if(isset($urlArray[0])) {
         $action = $urlArray[0];
-    else
-        $action = DEFAULT_ACTION;
+    } else {
+        $action = $settings['DEFAULT_ACTION'];
+    }
     array_shift($urlArray);
     $queryString = $urlArray;
 
@@ -59,14 +62,14 @@ function callHook() {
     $controller .= 'Controller';
     
     if($controllerName == ""){
-        $controllerName = defaultRoute['controller'];
+        $controllerName = $settings['defaultRoute']['controller'];
         $controller = ucwords($controllerName);
         $model = rtrim($controller, 's');
         $controller .= 'Controller';
-        $action = defaultRoute['action'];
+        $action = $settings['defaultRoute']['action'];
     }
-    
-    $dispatch = new $controller($model,$controllerName,$action);
+
+    $dispatch = new $controller($model, $controllerName, $action);
     if ((int)method_exists($controller, $action)) {
         call_user_func_array(array($dispatch,$action),$queryString);
     } else {
@@ -74,7 +77,7 @@ function callHook() {
     }
 }
 
-/** Autoload any classes that are required **/
+/** Autoload any classes that are required 
 function __autoload($className) {
     if(!in_array($className,array('Controller','Model','View','Request','SQLQuery'))){
         if (strpos($className, 'Controller') !== false) {
@@ -114,7 +117,8 @@ function __autoload($className) {
         }
     }
 }
-
+**/
+/*
 function requirePlugins($className){
     foreach(plugins as $plugin) {
         if (file_exists(ROOT . DS . 'app' . DS . 'plugins' . DS . $plugin . DS . 'controllers' . DS . $className . '.php')) {
@@ -131,7 +135,7 @@ function requirePlugins($className){
         }
     }
 }
-
+*/
 setReporting();
 removeMagicQuotes();
 unregisterGlobals();

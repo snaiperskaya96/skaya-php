@@ -1,4 +1,7 @@
 <?php
+
+namespace SkayaPHP\Core\Models;
+
 class Model extends SQLQuery {
  
     function __construct() {

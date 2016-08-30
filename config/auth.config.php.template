@@ -1,15 +1,15 @@
 <?php
-
-const AUTH_CONFIG = [
-    'model' => 'User',
-    'username_column' => 'username', // or maybe email
-    'password_column' => 'password', // if you're using the AuthComponent to handle sessions,
-                                     // take in mind that the BCRYPT hash will be 60 chars long
-    'acp_column' => null,            // (optional - null to disable) defines the column that will be used for access control
-    'salt' => 'randomCharacters123', // please specify your salt here
-    'cpu_cost' => 10, // choose a reasonable value from 4 to 31
+return [
+    'AUTH_CONFIG' => [
+        'model' => 'User',
+        'username_column' => 'username', // or maybe email
+        'password_column' => 'password', // if you're using the AuthComponent to handle sessions,
+                                         // keep in mind that the BCRYPT hash will be 60 chars long
+        'acp_column' => null,            // (optional - null to disable) defines the column that will be used for access control
+        'salt' => 'randomCharacters123', // please specify your salt here
+        'cpu_cost' => 10, // choose a reasonable value from 4 to 31
+    ],
+    'ACP_GUEST' => 0,
+    'ACP_ALLOW_EVERYONE' => -1,
+    'ACP_DENY_EVERYONE' => -2,
 ];
-
-define('ACP_GUEST',0);
-define('ACP_ALLOW_EVERYONE',-1);
-define('ACP_DENY_EVERYONE',-2);

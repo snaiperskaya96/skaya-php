@@ -1,22 +1,25 @@
 <?php
-/** Configuration Variables **/
-define('DEV_MODE',true);
+return [
+    'DEV_MODE' => true,
 
-define('BASEPATH','/');
-define('ROOTPATH',dirname(__DIR__));
+    'BASEPATH' => '/',
+    'ROOTPATH' => dirname(__DIR__),
 
-define('DEFAULT_ACTION','index');
-define('DEFAULT_TITLE','');
-define('DEFAULT_LAYOUT','default');
+    'DEFAULT_ACTION' => 'index',
 
-define('DB_NAME', '');
-define('DB_USER', '');
-define('DB_PASSWORD', '');
-define('DB_HOST', '');
+    'DEFAULT_TITLE' => '',
+    'DEFAULT_LAYOUT' => 'default',
 
-const defaultRoute = [
-    'controller' => 'pages',
-    'action' => 'home'
+    'DB_NAME' => '',
+    'DB_USER' => '',
+    'DB_PASSWORD' => '',
+    'DB_HOST' => '',
+
+    'defaultRoute' => [
+        'controller' => 'pages',
+        'action' => 'home'
+    ],
+
+    'plugins' => [],
 ];
 
-const plugins = [];

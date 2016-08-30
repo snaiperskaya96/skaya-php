@@ -1,4 +1,7 @@
 <?php
+
+namespace SkayaPHP\Core\Models;
+
 class SQLQuery {
     private $_db;
     protected $_model;

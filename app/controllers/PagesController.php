@@ -1,11 +1,15 @@
 <?php
 class PagesController extends AppController {
-    protected $acp = [
-        ACP_ALLOW_EVERYONE,
-        'Allow' => ['home' => []],
-        'Deny' => ['home' => [],'secretPage' => ACP_DENY_EVERYONE]
-    ];
-    
+
+    public function __construct($model, $controller, $action) {
+        parent::__construct($model, $controller, $action);
+        $this->acp = [
+            $this->acpSettings['ACP_ALLOW_EVERYONE'],
+            'Allow' => ['home' => []],
+            'Deny' => ['home' => [],'secretPage' => $this->acpSettings['ACP_DENY_EVERYONE']]
+        ];
+
+    }
     function home(){
         $db = false;
         try{

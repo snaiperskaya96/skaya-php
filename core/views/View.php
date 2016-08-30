@@ -1,4 +1,7 @@
 <?php
+
+namespace SkayaPHP\Core\View;
+
 class View {
      
     protected $variables = [];

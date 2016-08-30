@@ -1,35 +1,39 @@
 <?php
-define('DEV_MODE',true);
+return [
+    'settings' => [
+        'DEV_MODE' => true,
 
-define('BASEPATH','/');
-define('ROOTPATH',dirname(__DIR__));
+        'BASEPATH' => '/',
+        'ROOTPATH' => dirname(__DIR__),
 
-define('DEFAULT_ACTION','index');
-define('DEFAULT_TITLE','');
-define('DEFAULT_LAYOUT','default');
+        'DEFAULT_ACTION' => 'index',
 
-define('DB_NAME', '');
-define('DB_USER', '');
-define('DB_PASSWORD', '');
-define('DB_HOST', '');
+        'DEFAULT_TITLE' => '',
+        'DEFAULT_LAYOUT' => 'default',
 
-const defaultRoute = [
-    'controller' => 'pages',
-    'action' => 'home'
-];
+        'DB_NAME' => 'skayaphp',
+        'DB_USER' => 'skayaphp',
+        'DB_PASSWORD' => 'skayaphppass',
+        'DB_HOST' => 'localhost',
 
-const plugins = [];
+        'defaultRoute' => [
+            'controller' => 'pages',
+            'action' => 'home'
+        ],
 
-define('ACP_GUEST',0);
-define('ACP_ALLOW_EVERYONE',-1);
-define('ACP_DENY_EVERYONE',-2);
-
-const AUTH_CONFIG = [
-    'model' => 'User',
-    'username_column' => 'username', // or maybe email
-    'password_column' => 'password', // if you're using the AuthComponent to handle sessions,
-    // take in mind that the BCRYPT hash will be 60 chars long
-    'acp_column' => null,            // (optional - null to disable) defines the column that will be used for access control
-    'salt' => 'randomCharacters123', // please specify your salt here
-    'cpu_cost' => 10, // choose a reasonable value from 4 to 31
+        'plugins' => []
+    ],
+    'auth' => [
+        'AUTH_CONFIG' => [
+            'model' => 'User',
+            'username_column' => 'username',
+            'password_column' => 'password',
+            'acp_column' => null,
+            'salt' => 'randomCharacters123', 
+            'cpu_cost' => 10,
+        ],
+        'ACP_GUEST' => 0,
+        'ACP_ALLOW_EVERYONE' => -1,
+        'ACP_DENY_EVERYONE' => -2,
+    ]
 ];

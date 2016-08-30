@@ -1,5 +1,7 @@
-<?php 
-class AppController extends Controller{
+<?php
+use SkayaPHP\Core\Controllers\Controller;
+
+class AppController extends Controller {
 
 	protected $components = ['Auth','Session'];
 

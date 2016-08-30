@@ -1,5 +1,7 @@
 <?php
 
+namespace SkayaPHP\Core\Models;
+
 class Request {
     private $_isPost = false;
     private $_isGet = false;

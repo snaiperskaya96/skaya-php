@@ -1,4 +1,7 @@
 <?php
+
+namespace SkayaPHP\Core\Components;
+
 class Component{
 	protected $parent;
 

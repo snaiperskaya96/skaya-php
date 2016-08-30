@@ -1,22 +1,28 @@
 <?php
+
+namespace SkayaPHP\Core\Controllers;
+
+use SkayaPHP\Core\Models\Request;
+use SkayaPHP\Core\Components;
+use SkayaPHP\Core\View\View;
+
 class Controller {
      
     protected $_model;
     protected $_controller;
     protected $_action;
     protected $_template;
-    protected $title = DEFAULT_TITLE;
-    protected $layout = DEFAULT_LAYOUT;
+    protected $title;
+    protected $layout;
     protected $isPlugin = false;
     protected $pluginName = "";
     protected $autoRender = true;
     protected $helpers = ['Html','Css','Js'];
     protected $components = [];
     protected $request;
-    protected $acp = [ACP_ALLOW_EVERYONE, // Applied to every action
-        'Allow' => [], // ['actionName' => 1] (to role_id 1) or ['actionName' => [1,2,3]]
-        'Deny' => []
-    ];
+    protected $acp = [];
+    protected $settings;
+    protected $acpSettings;
 
  
     function __construct($model, $controller, $action) {
@@ -24,6 +30,14 @@ class Controller {
         $this->_action = $action;
         $this->_model = $model;
 
+        $this->settings = \SkayaPHP\Core\Factories\SettingsFactory::getAll();
+        $this->acpSettings = \SkayaPHP\Core\Factories\SettingsFactory::getAll(true);
+
+        $this->acp = [$this->acpSettings['ACP_ALLOW_EVERYONE'], 'Allow' => [], 'Deny' => ''];
+
+        $this->title = $this->settings['DEFAULT_TITLE'];
+        $this->layout = $this->settings['DEFAULT_LAYOUT'];
+        
         $this->request = new Request();
         
         foreach($this->components as $comp){

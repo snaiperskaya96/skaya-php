@@ -1,4 +1,7 @@
 <?php
+
+namespace SkayaPHP\Core\Components;
+
 class SessionComponent extends Component{
 	
     public function init(){
