@@ -1,6 +1,6 @@
 <?php
 
-namespace SkayaPHP\Core\View;
+namespace SkayaPHP\Views;
 
 class View {
      
@@ -11,10 +11,12 @@ class View {
     protected $_action;
     protected $isPlugin = false;
     protected $pluginName = '';
-    protected $_layout = DEFAULT_LAYOUT;
+    protected $_layout;
     private $_helpers = [];
+    private $settings;
 
     function __construct($model,$controller,$action,$layout = "default",$title = "") {
+        $this->settings = \SkayaPHP\Factories\SettingsFactory::getAll();
         $this->_model = $model;
         $this->_controller = $controller;
         $this->_action = $action;
@@ -47,9 +49,11 @@ class View {
      * @param array $components
      */
     function setComponents($components = []){
-        foreach($components as $component){
-            $compName = $component.'Component';
-            $this->$component = new $compName($this);
+        foreach($components as $comp){
+            $componentClass = $comp."Component";
+            if(!class_exists($componentClass))
+                $componentClass = 'SkayaPHP\\Components\\' . $componentClass;
+            $this->$comp = new $componentClass($this);
         }
     }
 
@@ -58,7 +62,10 @@ class View {
      */
     function render() {
         foreach($this->_helpers as $h){
-            $helperName = $h."Helper";
+            $helperName = $h.'Helper';
+            if(!class_exists($helperName)) {
+                $helperName = 'SkayaPHP\\Views\\Helpers\\' . $helperName;
+            }
             $this->$h = new $helperName();
         }
         extract($this->variables);
@@ -106,7 +113,7 @@ class View {
     }
 
     function basePath(){
-        return BASEPATH;
+        return $this->settings['BASEPATH'];
     }
 
     public function setIsPlugin($isPlugin,$pluginName = ""){

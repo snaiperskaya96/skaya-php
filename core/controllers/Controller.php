@@ -1,10 +1,9 @@
 <?php
 
-namespace SkayaPHP\Core\Controllers;
+namespace SkayaPHP\Controllers;
 
-use SkayaPHP\Core\Models\Request;
-use SkayaPHP\Core\Components;
-use SkayaPHP\Core\View\View;
+use SkayaPHP\Models\Request;
+use SkayaPHP\Views\View;
 
 class Controller {
      
@@ -30,8 +29,8 @@ class Controller {
         $this->_action = $action;
         $this->_model = $model;
 
-        $this->settings = \SkayaPHP\Core\Factories\SettingsFactory::getAll();
-        $this->acpSettings = \SkayaPHP\Core\Factories\SettingsFactory::getAll(true);
+        $this->settings = \SkayaPHP\Factories\SettingsFactory::getAll();
+        $this->acpSettings = \SkayaPHP\Factories\SettingsFactory::getAll(true);
 
         $this->acp = [$this->acpSettings['ACP_ALLOW_EVERYONE'], 'Allow' => [], 'Deny' => ''];
 
@@ -42,6 +41,8 @@ class Controller {
         
         foreach($this->components as $comp){
             $componentClass = $comp."Component";
+            if(!class_exists($componentClass))
+                $componentClass = 'SkayaPHP\\Components\\' . $componentClass;
             $this->$comp = new $componentClass($this);
         }
         

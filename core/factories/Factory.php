@@ -1,6 +1,6 @@
 <?php
 
-namespace SkayaPHP\Core\Factories;
+namespace SkayaPHP\Factories;
 
 class Factory {
     protected static $instance;

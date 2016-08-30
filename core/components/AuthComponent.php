@@ -1,14 +1,14 @@
 <?php
 
-namespace SkayaPHP\Core\Components;
+namespace SkayaPHP\Components;
 
 class AuthComponent extends Component{
 
     private $settings;
     
     public function init(){
-        $this->settings = \SkayaPHP\Core\Factories\SettingsFactory::getAll(true);
-        require_once(ROOTPATH . DS . 'core' . DS . 'vendor' . DS . 'password_lib.php');
+        $this->settings = \SkayaPHP\Factories\SettingsFactory::getAll(true);
+        require_once(__DIR__ . DS . '..' . DS . 'vendor' . DS . 'password_lib.php');
 
         // Make it indipendent from SessionComponent
         if (session_status() == PHP_SESSION_NONE) {

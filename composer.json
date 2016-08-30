@@ -15,9 +15,7 @@
         "ext-mbstring": "*"
     },
     "autoload": {
-        "psr-4": {
-            "SkayaPHP\\Core\\": "core/"
-        },
-        "classmap": ["app/", "core/components"]
+        "psr-4": {"SkayaPHP\\": "core/"},
+        "classmap": ["app/", "core/components/"]
     }
 }

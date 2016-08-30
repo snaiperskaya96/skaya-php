@@ -2,7 +2,8 @@
 require __DIR__ . DS . '../vendor/autoload.php';
 
 function setReporting() {
-    $settings = SkayaPHP\Core\Factories\SettingsFactory::getAll();
+    $settings = SkayaPHP\Factories\SettingsFactory::getAll();
+    
     if ($settings['DEV_MODE'] == true) {
         error_reporting(E_ALL);
         ini_set('display_errors','On');
@@ -41,7 +42,7 @@ function unregisterGlobals() {
 
 /** Main Call Function **/
 function callHook() {
-    $settings = SkayaPHP\Core\Factories\SettingsFactory::getAll();
+    $settings = SkayaPHP\Factories\SettingsFactory::getAll();
     global $url;
 
     $urlArray = explode("/",$url);

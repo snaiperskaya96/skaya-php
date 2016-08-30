@@ -1,4 +1,7 @@
 <?php
+
+namespace SkayaPHP\Views\Helpers;
+
 class JsHelper extends Helper{
 	/**
 	 * Link the $fileName js - usually found inside public/res/js

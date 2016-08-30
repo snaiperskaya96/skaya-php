@@ -1,6 +1,6 @@
 <?php
 
-namespace SkayaPHP\Core\Models;
+namespace SkayaPHP\Models;
 
 class SQLQuery {
     private $_db;

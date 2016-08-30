@@ -12,15 +12,16 @@ class PagesController extends AppController {
     }
     function home(){
         $db = false;
+        $settings = SkayaPHP\Factories\SettingsFactory::getAll();
         try{
-            if(DB_HOST != "" && DB_NAME != "" && DB_USER != "" && DB_PASSWORD != ""){
-                $this->_db = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PASSWORD);
+            if($settings['DB_HOST'] != "" && $settings['DB_NAME'] != "" && $settings['DB_USER'] != "" && $settings['DB_PASSWORD'] != ""){
+                $this->_db = new PDO("mysql:host=".$settings['DB_HOST'].";dbname=".$settings['DB_NAME'], $settings['DB_USER'], $settings['DB_PASSWORD']);
                 $db = true;
             }
         } catch (PDOException $e){
         }
         $this->set('dbconnection',$db);
-        $this->set('writabletmp',is_writable(ROOTPATH.'/tmp'));
+        $this->set('writabletmp',is_writable($settings['ROOTPATH'].'/tmp'));
     }
 
     function secretPage(){

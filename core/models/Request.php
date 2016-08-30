@@ -1,6 +1,6 @@
 <?php
 
-namespace SkayaPHP\Core\Models;
+namespace SkayaPHP\Models;
 
 class Request {
     private $_isPost = false;

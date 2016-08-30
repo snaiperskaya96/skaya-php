@@ -1,4 +1,7 @@
 <?php
+
+namespace SkayaPHP\Views\Helpers;
+
 class HtmlHelper extends Helper{
 
     /**

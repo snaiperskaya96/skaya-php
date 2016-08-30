@@ -1,5 +1,5 @@
 <?php
-use SkayaPHP\Core\Controllers\Controller;
+use SkayaPHP\Controllers\Controller;
 
 class AppController extends Controller {
 

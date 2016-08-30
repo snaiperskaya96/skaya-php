@@ -1,6 +1,6 @@
 <?php
 
-namespace SkayaPHP\Core\Components;
+namespace SkayaPHP\Components;
 
 class SessionComponent extends Component{
 	

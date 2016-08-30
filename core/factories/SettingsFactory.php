@@ -1,6 +1,6 @@
 <?php
 
-namespace SkayaPHP\Core\Factories;
+namespace SkayaPHP\Factories;
 
 class SettingsFactory extends Factory{
 
@@ -35,7 +35,7 @@ class SettingsFactory extends Factory{
     }
 
     public static function get($key, $fromAuth = false) {
-        $instance = $this->getInstance();
+        $instance = self::getInstance();
         if (!$fromAuth) {
             return $instance->settings[$key];
         } else {
